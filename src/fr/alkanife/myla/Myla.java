@@ -1,6 +1,9 @@
 package fr.alkanife.myla;
 
-import fr.alkanife.myla.commands.CommandHandler;
+import fr.alkanife.botcommons.Lang;
+import fr.alkanife.botcommons.Utils;
+import fr.alkanife.botcommons.YMLReader;
+import fr.alkanife.myla.commands.Handler;
 import fr.alkanife.myla.commands.Commands;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -13,7 +16,7 @@ import java.util.HashMap;
 
 public class Myla {
 
-    private static String version = "1.1.0";
+    private static String version = "1.2.0";
 
     private static Logger logger;
 
@@ -24,6 +27,7 @@ public class Myla {
     private static String botsggToken;
 
     private static OkHttpClient okHttpClient;
+    private static Handler handler;
     private static JDA jda;
 
     /*public static void main(String[] args) {
@@ -35,17 +39,17 @@ public class Myla {
     }*/
 
     public static void main(String[] args) {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        Utils.clearTerminal();
 
         logger = LoggerFactory.getLogger(Myla.class);
+        handler = new Handler();
         okHttpClient = new OkHttpClient();
 
         logger.info("––––––––––––––––––––––––––––––––––––––––––––");
         logger.info("Starting Myla " + version);
 
         try {
-            configurationValues = YmlReader.read("configuration");
+            configurationValues = YMLReader.read("configuration");
 
             if (configurationValues == null) {
                 logger.error("Configuration file not found!");
@@ -93,17 +97,13 @@ public class Myla {
 
 
             Myla.getLogger().info("Loading translations");
-            if (Lang.load()) {
-                Myla.getLogger().info(Lang.getTranslations().size() + " loaded translations");
-            } else {
-                System.exit(0);
-                return;
-            }
+            Lang.load();
+            Myla.getLogger().info(Lang.getTranslations().size() + " loaded translations");
 
 
             Myla.getLogger().info("Setting up commands");
-            CommandHandler.registerCommands(new Commands());
-            Myla.getLogger().info(CommandHandler.getCommands().size() + " loaded commands");
+            handler.registerCommands(new Commands());
+            Myla.getLogger().info(handler.getCommands().size() + " loaded commands");
 
 
             Myla.getLogger().info("Getting count...");
@@ -125,6 +125,10 @@ public class Myla {
         } catch (Exception exception) {
             logger.error("Failed to start", exception);
         }
+    }
+
+    public static Handler getHandler() {
+        return handler;
     }
 
     public static String getVersion() {

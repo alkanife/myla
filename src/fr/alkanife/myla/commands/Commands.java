@@ -1,9 +1,10 @@
 package fr.alkanife.myla.commands;
 
+import fr.alkanife.botcommons.Command;
+import fr.alkanife.botcommons.Utils;
 import fr.alkanife.myla.Gifs;
-import fr.alkanife.myla.Lang;
 import fr.alkanife.myla.Myla;
-import fr.alkanife.myla.Utils;
+import fr.alkanife.botcommons.Lang;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -44,9 +45,11 @@ public class Commands {
                 break;
 
             case "reload":
-                if (!Lang.load()) {
+                try {
+                    Lang.load();
+                } catch (Exception e) {
                     slashCommandEvent.reply("Error while loading translations").setEphemeral(true).queue();
-                    break;
+                    Myla.getLogger().error("Failing @ loading translations", e);
                 }
 
                 if (!Gifs.count()) {
@@ -65,8 +68,9 @@ public class Commands {
                         "Updays: " + Utils.getUpDays() + "\n" +
                         "Total GIF count: " + Gifs.getTotalCount() + "\n" +
                         "Translations: " + Lang.getTranslations().size() + "\n" +
-                        "Commands: " + CommandHandler.getCommands().size() + "\n" +
-                        "Executed commands: " + CommandHandler.executed);
+                        "Commands: " + Myla.getHandler().getCommands().size() + "\n" +
+                        "Executed commands: " + Handler.executed);
+                embed.setThumbnail(Myla.getJda().getSelfUser().getAvatarUrl());
                 slashCommandEvent.replyEmbeds(embed.build()).setEphemeral(true).queue();
                 break;
 

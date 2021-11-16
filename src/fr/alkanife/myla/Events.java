@@ -1,9 +1,6 @@
 package fr.alkanife.myla;
 
-import fr.alkanife.myla.commands.Command;
-import fr.alkanife.myla.commands.CommandHandler;
-import fr.alkanife.myla.commands.Commands;
-import net.dv8tion.jda.api.entities.Guild;
+import fr.alkanife.myla.commands.Handler;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
@@ -25,7 +22,7 @@ public class Events extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        CommandHandler.redirect(event);
+        Myla.getHandler().handle(event);
     }
 
     @Override
@@ -39,12 +36,12 @@ public class Events extends ListenerAdapter {
     }
 
     private void commands(ReadyEvent readyEvent) {
-        Guild guild = readyEvent.getJDA().getGuildById("");
+        /*Guild guild = readyEvent.getJDA().getGuildById("");
 
         if (guild == null) {
             Myla.getLogger().error("Invalid guild");
             return;
-        }
+        }*/
 
         CommandData myla = new CommandData("myla", "Need help? A bug? A feedback?")
                 .addOption(OptionType.STRING, "args", "optional", false);
@@ -68,7 +65,7 @@ public class Events extends ListenerAdapter {
         CommandData smile = new CommandData("smile", "(ᵔᴥᵔ) Reply with a random 'smile' GIF.");
         CommandData wink = new CommandData("wink", "Wink wink. Reply with a random 'wink' GIF.");
 
-        guild.updateCommands().addCommands(myla, blush, cookie, cry, headpat, hehe, hi, hug, idk, kiss, laugh, meme,
+        Myla.getJda().updateCommands().addCommands(myla, blush, cookie, cry, headpat, hehe, hi, hug, idk, kiss, laugh, meme,
                 notlikethis, party, pout, punch, slap, smile, wink).queue();
     }
 
