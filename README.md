@@ -19,6 +19,7 @@ A Discord bot that adds quick anime GIF commands. You can sumbit a GIF on the Di
 
 # Dependencies:
 - [JDA](https://github.com/DV8FromTheWorld/JDA)
+- [bot-commons](https://github.com/alkanife/bot-commons)
 - [gson](https://github.com/google/gson)
 - [Logback](http://logback.qos.ch/)
 - [SnakeYAML](https://mvnrepository.com/artifact/org.yaml/snakeyaml)
