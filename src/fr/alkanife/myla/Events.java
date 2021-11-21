@@ -17,7 +17,9 @@ public class Events extends ListenerAdapter {
 
         //commands(readyEvent);
 
-        Myla.getLogger().info("Ready!");
+        Stats.update();
+
+        Myla.getLogger().info("Done!");
     }
 
     @Override

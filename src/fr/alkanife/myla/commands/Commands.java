@@ -37,7 +37,7 @@ public class Commands {
 
         switch (command) {
             case "reboot":
-                slashCommandEvent.reply("Rebooting").queue(msg -> {
+                slashCommandEvent.reply("Rebooting").setEphemeral(true).queue(msg -> {
                     Myla.getLogger().info("Shutdown by " + slashCommandEvent.getUser().getName());
                     Myla.getJda().shutdownNow();
                     System.exit(0);

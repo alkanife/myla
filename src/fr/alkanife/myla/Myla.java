@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class Myla {
 
-    private static String version = "1.2.0";
+    private static String version = "1.2.1";
 
     private static Logger logger;
 
@@ -25,18 +25,11 @@ public class Myla {
     private static String creatorID;
     private static boolean statistics;
     private static String botsggToken;
+    private static String topggToken;
 
     private static OkHttpClient okHttpClient;
     private static Handler handler;
     private static JDA jda;
-
-    /*public static void main(String[] args) {
-        int count = 1;
-
-        for (int i = 0; i < 100; i++) {
-            System.out.println(new Random().nextInt(count) + "");
-        }
-    }*/
 
     public static void main(String[] args) {
         Utils.clearTerminal();
@@ -82,14 +75,17 @@ public class Myla {
                 statistics = Boolean.parseBoolean(String.valueOf(stats));
 
                 if (statistics) {
-                    Object ggToken = configurationValues.get("botsgg-token");
+                    Object botsToken = configurationValues.get("botsgg-token");
+                    Object topToken = configurationValues.get("topgg-token");
 
-                    if (ggToken == null) {
+                    if (botsToken == null || topToken == null) {
                         logger.error("Incomplete configuration: missing botsgg-token or topgg-token value");
                         System.exit(0);
                         return;
-                    } else
-                        botsggToken = String.valueOf(ggToken);
+                    } else {
+                        botsggToken = String.valueOf(botsToken);
+                        topggToken = String.valueOf(topToken);
+                    }
                 } else {
                     logger.info("Statistics disabled by configuration");
                 }
@@ -161,5 +157,9 @@ public class Myla {
 
     public static OkHttpClient getOkHttpClient() {
         return okHttpClient;
+    }
+
+    public static String getTopggToken() {
+        return topggToken;
     }
 }
