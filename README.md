@@ -10,7 +10,7 @@ A Discord bot that adds quick anime GIF commands. You can sumbit a GIF on the Di
 # Commands
 ```
 /blush, /cookie, /cry, /headpat, /hehe, /hi, /hug, /idk, /kiss, /laugh, /meme, /notlikethis, /party,
-/pout, /punch, /slap, /smile, /wink
+/pout, /punch, /slap, /smile, /wink, /pray
 ```
 
 # Previews
