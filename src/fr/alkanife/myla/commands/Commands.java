@@ -74,8 +74,32 @@ public class Commands {
                 slashCommandEvent.replyEmbeds(embed.build()).setEphemeral(true).queue();
                 break;
 
+            case "count":
+                String count = "blush: " + Gifs.getBlushCount() + "\n" +
+                        "cookie: " + Gifs.getCookieCount() + "\n" +
+                        "cry: " + Gifs.getCryCount() + "\n" +
+                        "headpat: " + Gifs.getHeadpatCount() + "\n" +
+                        "hehe: " + Gifs.getHeheCount() + "\n" +
+                        "hi: " + Gifs.getHiCount() + "\n" +
+                        "hug: " + Gifs.getHugCount() + "\n" +
+                        "idk: " + Gifs.getIdkCount() + "\n" +
+                        "kiss: " + Gifs.getKissCount() + "\n" +
+                        "laugh: " + Gifs.getLaughCount() + "\n" +
+                        "meme: " + Gifs.getMemeCount() + "\n" +
+                        "notlikethis: " + Gifs.getNotlikethisCount() + "\n" +
+                        "party: " + Gifs.getPartyCount() + "\n" +
+                        "pout: " + Gifs.getPoutCount() + "\n" +
+                        "punch: " + Gifs.getPunchCount() + "\n" +
+                        "slap: " + Gifs.getSlapCount() + "\n" +
+                        "smile: " + Gifs.getSmileCount() + "\n" +
+                        "wink: " + Gifs.getWinkCount() + "\n" +
+                        "pray: " + Gifs.getPrayCount();
+
+                slashCommandEvent.reply(count).setEphemeral(true).queue();
+                break;
+
             default:
-                slashCommandEvent.reply("Valid args: status, reboot, reload").setEphemeral(true).queue();
+                slashCommandEvent.reply("Valid args: status, count, reboot, reload").setEphemeral(true).queue();
                 break;
         }
     }
@@ -172,7 +196,7 @@ public class Commands {
 
     @Command(name = "pray")
     public void pray(SlashCommandEvent slashCommandEvent) {
-        slashCommandEvent.reply(Gifs.get("pray", Gifs.getWinkCount())).queue();
+        slashCommandEvent.reply(Gifs.get("pray", Gifs.getPrayCount())).queue();
     }
 
 }
