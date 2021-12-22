@@ -25,6 +25,7 @@ $obj->punch = getCount("punch");
 $obj->slap = getCount("slap");
 $obj->smile = getCount("smile");
 $obj->wink = getCount("wink");
+$obj->pray = getCount("pray");
 
 $json = json_encode($obj);
 

@@ -170,4 +170,9 @@ public class Commands {
         slashCommandEvent.reply(Gifs.get("wink", Gifs.getWinkCount())).queue();
     }
 
+    @Command(name = "pray")
+    public void pray(SlashCommandEvent slashCommandEvent) {
+        slashCommandEvent.reply(Gifs.get("pray", Gifs.getWinkCount())).queue();
+    }
+
 }

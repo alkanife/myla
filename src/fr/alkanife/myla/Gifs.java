@@ -28,6 +28,7 @@ public class Gifs {
     private static int slapCount = 0;
     private static int smileCount = 0;
     private static int winkCount = 0;
+    private static int prayCount = 0;
 
     public static boolean count() {
         try {
@@ -63,6 +64,7 @@ public class Gifs {
             slapCount = jsonObject.get("slap").getAsInt();
             smileCount = jsonObject.get("smile").getAsInt();
             winkCount = jsonObject.get("wink").getAsInt();
+            prayCount = jsonObject.get("pray").getAsInt();
 
             response.close();
             return true;
@@ -80,7 +82,8 @@ public class Gifs {
 
     public static int getTotalCount() {
         return blushCount + cookieCount + cryCount + headpatCount + heheCount + hiCount + hugCount + idkCount + kissCount
-                + laughCount + memeCount + notlikethisCount + partyCount + poutCount + punchCount + slapCount + smileCount + winkCount;
+                + laughCount + memeCount + notlikethisCount + partyCount + poutCount + punchCount + slapCount + smileCount + winkCount
+                + prayCount;
     }
 
     public static int getBlushCount() {
@@ -153,5 +156,9 @@ public class Gifs {
 
     public static int getWinkCount() {
         return winkCount;
+    }
+
+    public static int getPrayCount() {
+        return prayCount;
     }
 }

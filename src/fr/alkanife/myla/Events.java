@@ -38,6 +38,7 @@ public class Events extends ListenerAdapter {
     }
 
     private void commands(ReadyEvent readyEvent) {
+
         /*Guild guild = readyEvent.getJDA().getGuildById("");
 
         if (guild == null) {
@@ -66,9 +67,10 @@ public class Events extends ListenerAdapter {
         CommandData slap = new CommandData("slap", "Nicen't. Reply with a random 'slap' GIF.");
         CommandData smile = new CommandData("smile", "(ᵔᴥᵔ) Reply with a random 'smile' GIF.");
         CommandData wink = new CommandData("wink", "Wink wink. Reply with a random 'wink' GIF.");
+        CommandData pray = new CommandData("pray", "🙏🏻 Reply with a random 'pray' GIF.");
 
         Myla.getJda().updateCommands().addCommands(myla, blush, cookie, cry, headpat, hehe, hi, hug, idk, kiss, laugh, meme,
-                notlikethis, party, pout, punch, slap, smile, wink).queue();
+                notlikethis, party, pout, punch, slap, smile, wink, pray).queue();
     }
 
 }

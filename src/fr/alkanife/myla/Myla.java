@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class Myla {
 
-    private static String version = "1.2.1";
+    private static String version = "1.2.2";
 
     private static Logger logger;
 
