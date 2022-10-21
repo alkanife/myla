@@ -1,7 +1,7 @@
 # myla
 ![Discord Bots](https://top.gg/api/widget/servers/658109944859459604.svg)
 
-A Discord bot that adds quick anime GIF commands. You can sumbit a GIF on the Discord server.
+A Discord bot that adds quick anime GIF commands. You can submit a GIF on the Discord server.
 
 - [**[INVITE](https://myla.alkanife.fr/invite)**] 
 - [**[GIF DATABASE](https://myla.alkanife.fr/images)**] 
