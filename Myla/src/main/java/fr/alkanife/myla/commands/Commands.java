@@ -1,12 +1,9 @@
 package fr.alkanife.myla.commands;
 
-import fr.alkanife.botcommons.Command;
-import fr.alkanife.botcommons.Utils;
 import fr.alkanife.myla.Gifs;
 import fr.alkanife.myla.Myla;
-import fr.alkanife.botcommons.Lang;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import fr.alkanife.myla.TranslationsLoader;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
 import java.util.Locale;
@@ -14,22 +11,22 @@ import java.util.Locale;
 public class Commands {
 
     @Command(name = "myla")
-    public void myla(SlashCommandEvent slashCommandEvent) {
+    public void myla(SlashCommandInteractionEvent slashCommandEvent) {
 
-        if (Myla.getCreatorID() == null) {
-            slashCommandEvent.reply(Lang.t("myla-command")).setEphemeral(true).queue();
+        if (Myla.getConfig().getAdmin_id() == null) {
+            slashCommandEvent.reply(Myla.t("myla-command")).setEphemeral(true).queue();
             return;
         }
 
-        if (!slashCommandEvent.getUser().getId().equals(Myla.getCreatorID())) {
-            slashCommandEvent.reply(Lang.t("myla-command")).setEphemeral(true).queue();
+        if (!slashCommandEvent.getUser().getId().equals(Myla.getConfig().getAdmin_id())) {
+            slashCommandEvent.reply(Myla.t("myla-command")).setEphemeral(true).queue();
             return;
         }
 
         OptionMapping args = slashCommandEvent.getOption("args");
 
         if (args == null) {
-            slashCommandEvent.reply(Lang.t("myla-command")).setEphemeral(true).queue();
+            slashCommandEvent.reply(Myla.t("myla-command")).setEphemeral(true).queue();
             return;
         }
 
@@ -39,14 +36,15 @@ public class Commands {
             case "reboot":
                 slashCommandEvent.reply("Rebooting").setEphemeral(true).queue(msg -> {
                     Myla.getLogger().info("Shutdown by " + slashCommandEvent.getUser().getName());
-                    Myla.getJda().shutdownNow();
+                    Myla.getJDA().shutdownNow();
                     System.exit(0);
                 });
                 break;
 
             case "reload":
                 try {
-                    Lang.load();
+                    TranslationsLoader translationsLoader = new TranslationsLoader(true);
+                    Myla.setTranslations(translationsLoader.getTranslations());
                 } catch (Exception e) {
                     slashCommandEvent.reply("Error while loading translations").setEphemeral(true).queue();
                     Myla.getLogger().error("Failing @ loading translations", e);
@@ -58,20 +56,6 @@ public class Commands {
                 }
 
                 slashCommandEvent.reply("Reload success").setEphemeral(true).queue();
-                break;
-
-            case "status":
-                EmbedBuilder embed = new EmbedBuilder();
-                embed.setTitle("Status");
-                embed.setDescription("Version: " + Myla.getVersion() + "\n\n" +
-                        "Guilds: " + Myla.getJda().getGuilds().size() + "\n" +
-                        "Updays: " + Utils.getUpDays() + "\n" +
-                        "Total GIF count: " + Gifs.getTotalCount() + "\n" +
-                        "Translations: " + Lang.getTranslations().size() + "\n" +
-                        "Commands: " + Myla.getHandler().getCommands().size() + "\n" +
-                        "Executed commands: " + Handler.executed);
-                embed.setThumbnail(Myla.getJda().getSelfUser().getAvatarUrl());
-                slashCommandEvent.replyEmbeds(embed.build()).setEphemeral(true).queue();
                 break;
 
             case "count":
@@ -99,103 +83,103 @@ public class Commands {
                 break;
 
             default:
-                slashCommandEvent.reply("Valid args: status, count, reboot, reload").setEphemeral(true).queue();
+                slashCommandEvent.reply("Valid args: count, reboot, reload").setEphemeral(true).queue();
                 break;
         }
     }
 
     @Command(name = "blush")
-    public void blush(SlashCommandEvent slashCommandEvent) {
+    public void blush(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("blush", Gifs.getBlushCount())).queue();
     }
 
     @Command(name = "cookie")
-    public void cookie(SlashCommandEvent slashCommandEvent) {
+    public void cookie(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("cookie", Gifs.getCookieCount())).queue();
     }
 
     @Command(name = "cry")
-    public void cry(SlashCommandEvent slashCommandEvent) {
+    public void cry(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("cry", Gifs.getCryCount())).queue();
     }
 
     @Command(name = "headpat")
-    public void headpat(SlashCommandEvent slashCommandEvent) {
+    public void headpat(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("headpat", Gifs.getHeadpatCount())).queue();
     }
 
     @Command(name = "hehe")
-    public void hehe(SlashCommandEvent slashCommandEvent) {
+    public void hehe(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("hehe", Gifs.getHeheCount())).queue();
     }
 
     @Command(name = "hi")
-    public void hi(SlashCommandEvent slashCommandEvent) {
+    public void hi(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("hi", Gifs.getHiCount())).queue();
     }
 
     @Command(name = "hug")
-    public void hug(SlashCommandEvent slashCommandEvent) {
+    public void hug(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("hug", Gifs.getHugCount())).queue();
     }
 
     @Command(name = "idk")
-    public void idk(SlashCommandEvent slashCommandEvent) {
+    public void idk(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("idk", Gifs.getIdkCount())).queue();
     }
 
     @Command(name = "kiss")
-    public void kiss(SlashCommandEvent slashCommandEvent) {
+    public void kiss(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("kiss", Gifs.getKissCount())).queue();
     }
 
     @Command(name = "laugh")
-    public void laugh(SlashCommandEvent slashCommandEvent) {
+    public void laugh(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("laugh", Gifs.getLaughCount())).queue();
     }
 
     @Command(name = "meme")
-    public void meme(SlashCommandEvent slashCommandEvent) {
+    public void meme(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("meme", Gifs.getMemeCount())).queue();
     }
 
     @Command(name = "notlikethis")
-    public void notlikethis(SlashCommandEvent slashCommandEvent) {
+    public void notlikethis(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("notlikethis", Gifs.getNotlikethisCount())).queue();
     }
 
     @Command(name = "party")
-    public void party(SlashCommandEvent slashCommandEvent) {
+    public void party(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("party", Gifs.getPartyCount())).queue();
     }
 
     @Command(name = "pout")
-    public void pout(SlashCommandEvent slashCommandEvent) {
+    public void pout(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("pout", Gifs.getPoutCount())).queue();
     }
 
     @Command(name = "punch")
-    public void punch(SlashCommandEvent slashCommandEvent) {
+    public void punch(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("punch", Gifs.getPunchCount())).queue();
     }
 
     @Command(name = "slap")
-    public void slap(SlashCommandEvent slashCommandEvent) {
+    public void slap(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("slap", Gifs.getSlapCount())).queue();
     }
 
     @Command(name = "smile")
-    public void smile(SlashCommandEvent slashCommandEvent) {
+    public void smile(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("smile", Gifs.getSmileCount())).queue();
     }
 
     @Command(name = "wink")
-    public void wink(SlashCommandEvent slashCommandEvent) {
+    public void wink(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("wink", Gifs.getWinkCount())).queue();
     }
 
     @Command(name = "pray")
-    public void pray(SlashCommandEvent slashCommandEvent) {
+    public void pray(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("pray", Gifs.getPrayCount())).queue();
     }
 

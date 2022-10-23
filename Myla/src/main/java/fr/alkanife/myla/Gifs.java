@@ -32,7 +32,7 @@ public class Gifs {
 
     public static boolean count() {
         try {
-            Request request = new Request.Builder().url("https://myla.alkanife.fr/image_count").build();
+            Request request = new Request.Builder().url(Myla.getConfig().getBase_imageurl() + "/image_count").build();
 
             Response response = Myla.getOkHttpClient().newCall(request).execute();
             ResponseBody body = response.body();
@@ -74,10 +74,10 @@ public class Gifs {
         }
     }
 
-    public static String get(String type, int count) { //todo maybe auto type to count variable?
+    public static String get(String type, int count) {
         int random = new Random().nextInt(count);
 
-        return "https://myla.alkanife.fr/images/" + type + "/" + random + ".gif";
+        return Myla.getConfig().getBase_imageurl() + "/images/" + type + "/" + random + ".gif";
     }
 
     public static int getTotalCount() {

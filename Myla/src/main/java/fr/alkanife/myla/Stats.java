@@ -9,24 +9,26 @@ import org.discordbots.api.client.DiscordBotListAPI;
 public class Stats {
 
     public static void update() {
-        if (!Myla.statistics())
+        if (!Myla.getConfig().isStats())
             return;
 
-        try {
-            DiscordBotListAPI api = new DiscordBotListAPI.Builder().token(Myla.getTopggToken()).botId(Myla.getJda().getSelfUser().getId()).build();
+        Myla.debug("Updating stats");
 
-            api.setStats(Myla.getJda().getGuilds().size());
+        try {
+            DiscordBotListAPI api = new DiscordBotListAPI.Builder().token(Myla.getConfig().getTopgg_token()).botId(Myla.getJDA().getSelfUser().getId()).build();
+
+            api.setStats(Myla.getJDA().getGuilds().size());
         } catch (Exception exception) {
             Myla.getLogger().error("Failed to send top.gg stats", exception);
         }
 
         try {
             RequestBody body = RequestBody.create(
-                    MediaType.parse("application/json"), "{\"guildCount\":" + Myla.getJda().getGuilds().size() + "}");
+                    MediaType.parse("application/json"), "{\"guildCount\":" + Myla.getJDA().getGuilds().size() + "}");
 
             Request request = new Request.Builder()
-                    .url("https://discord.bots.gg/api/v1/bots/658109944859459604/stats")
-                    .addHeader("Authorization", Myla.getBotsggToken())
+                    .url(Myla.getConfig().getBotsgg_url())
+                    .addHeader("Authorization", Myla.getConfig().getBotsgg_token())
                     .post(body)
                     .build();
 
