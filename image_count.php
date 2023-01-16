@@ -26,6 +26,7 @@ $obj->slap = getCount("slap");
 $obj->smile = getCount("smile");
 $obj->wink = getCount("wink");
 $obj->pray = getCount("pray");
+$obj->hide = getCount("hide");
 
 $json = json_encode($obj);
 

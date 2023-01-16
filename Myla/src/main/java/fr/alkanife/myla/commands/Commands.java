@@ -2,7 +2,8 @@ package fr.alkanife.myla.commands;
 
 import fr.alkanife.myla.Gifs;
 import fr.alkanife.myla.Myla;
-import fr.alkanife.myla.TranslationsLoader;
+import fr.alkanife.myla.configuration.ConfigurationManager;
+import fr.alkanife.myla.translation.TranslationManager;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 
@@ -14,19 +15,19 @@ public class Commands {
     public void myla(SlashCommandInteractionEvent slashCommandEvent) {
 
         if (Myla.getConfig().getAdmin_id() == null) {
-            slashCommandEvent.reply(Myla.t("myla-command")).setEphemeral(true).queue();
+            slashCommandEvent.reply(Myla.getLang().getInfo()).setEphemeral(true).queue();
             return;
         }
 
         if (!slashCommandEvent.getUser().getId().equals(Myla.getConfig().getAdmin_id())) {
-            slashCommandEvent.reply(Myla.t("myla-command")).setEphemeral(true).queue();
+            slashCommandEvent.reply(Myla.getLang().getInfo()).setEphemeral(true).queue();
             return;
         }
 
         OptionMapping args = slashCommandEvent.getOption("args");
 
         if (args == null) {
-            slashCommandEvent.reply(Myla.t("myla-command")).setEphemeral(true).queue();
+            slashCommandEvent.reply(Myla.getLang().getInfo()).setEphemeral(true).queue();
             return;
         }
 
@@ -43,19 +44,52 @@ public class Commands {
 
             case "reload":
                 try {
-                    TranslationsLoader translationsLoader = new TranslationsLoader(true);
-                    Myla.setTranslations(translationsLoader.getTranslations());
-                } catch (Exception e) {
-                    slashCommandEvent.reply("Error while loading translations").setEphemeral(true).queue();
-                    Myla.getLogger().error("Failing @ loading translations", e);
-                }
+                    Myla.getLogger().info("Reload by " + slashCommandEvent.getUser().getName());
+                    StringBuilder stringBuilder = new StringBuilder();
 
-                if (!Gifs.count()) {
-                    slashCommandEvent.reply("Error while requesting gif count").setEphemeral(true).queue();
-                    break;
-                }
+                    ConfigurationManager configurationManager = new ConfigurationManager();
 
-                slashCommandEvent.reply("Reload success").setEphemeral(true).queue();
+                    stringBuilder.append("config load: ");
+                    if (configurationManager.load())
+                        stringBuilder.append("ok");
+                    else
+                        stringBuilder.append("**fail**");
+
+                    stringBuilder.append("\nconfig parse: ");
+                    if (configurationManager.parse()) {
+                        stringBuilder.append("ok");
+                        Myla.setConfigurationManager(configurationManager);
+                    } else {
+                        stringBuilder.append("**fail**");
+                    }
+
+                    TranslationManager translationManager = new TranslationManager();
+
+                    stringBuilder.append("\n\nlang load: ");
+                    if (translationManager.load())
+                        stringBuilder.append("ok");
+                    else
+                        stringBuilder.append("**fail**");
+
+                    stringBuilder.append("\nlang parse: ");
+                    if (translationManager.parse()) {
+                        stringBuilder.append("ok");
+                        Myla.setTranslationManager(translationManager);
+                    } else {
+                        stringBuilder.append("**fail**");
+                    }
+
+                    stringBuilder.append("\n\ncount:");
+                    if (Gifs.count())
+                        stringBuilder.append("ok");
+                    else
+                        stringBuilder.append("**fail**");
+
+                    slashCommandEvent.reply(stringBuilder.toString()).setEphemeral(true).queue();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    slashCommandEvent.reply("Error while reloading").setEphemeral(true).queue();
+                }
                 break;
 
             case "count":
@@ -77,7 +111,8 @@ public class Commands {
                         "slap: " + Gifs.getSlapCount() + "\n" +
                         "smile: " + Gifs.getSmileCount() + "\n" +
                         "wink: " + Gifs.getWinkCount() + "\n" +
-                        "pray: " + Gifs.getPrayCount();
+                        "pray: " + Gifs.getPrayCount() + "\n" +
+                        "hide: " + Gifs.getHideCount();
 
                 slashCommandEvent.reply(count).setEphemeral(true).queue();
                 break;
@@ -181,6 +216,11 @@ public class Commands {
     @Command(name = "pray")
     public void pray(SlashCommandInteractionEvent slashCommandEvent) {
         slashCommandEvent.reply(Gifs.get("pray", Gifs.getPrayCount())).queue();
+    }
+
+    @Command(name = "hide")
+    public void hide(SlashCommandInteractionEvent slashCommandEvent) {
+        slashCommandEvent.reply(Gifs.get("hide", Gifs.getHideCount())).queue();
     }
 
 }

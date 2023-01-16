@@ -2,8 +2,10 @@ package fr.alkanife.myla;
 
 import fr.alkanife.myla.commands.Commands;
 import fr.alkanife.myla.commands.CommandHandler;
-import fr.alkanife.myla.configuration.Configuration;
-import fr.alkanife.myla.configuration.ConfigurationLoader;
+import fr.alkanife.myla.configuration.json.JSONConfiguration;
+import fr.alkanife.myla.configuration.ConfigurationManager;
+import fr.alkanife.myla.translation.JSONLang;
+import fr.alkanife.myla.translation.TranslationManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import okhttp3.OkHttpClient;
@@ -19,42 +21,79 @@ import java.util.*;
 
 public class Myla {
 
-    private static boolean DEBUG = false;
-    private static String ABSOLUTE_PATH = "";
-    private static Logger LOGGER;
-    private static Configuration CONFIGURATION;
-    private static CommandHandler COMMAND_HANDLER;
-    private static HashMap<String, Object> TRANSLATIONS = new HashMap<>();
+    public static final String VERSION = "1.4.0";
+    public static final String WEBSITE = "https://myla.alkanife.fr";
+
+    public static boolean updateCommands = false;
+
+    private static boolean debug = false;
+    private static Logger logger;
+    private static ConfigurationManager configurationManager;
+    private static TranslationManager translationManager;
+    private static CommandHandler commandHandler;
     private static JDA JDA;
-    private static OkHttpClient OK_HTTP_CLIENT;
+    private static OkHttpClient okHttpClient;
 
     public static void main(String[] args) {
         try {
-            //
-            // Checking advancedDebug argument
-            //
-            if (args.length > 0)
+            // Reading arguments
+            if (args.length > 0) {
+                if (args[0].equalsIgnoreCase("help")) {
+                    System.out.println("This is Myla version " + VERSION);
+                    System.out.println("Usage:\n" +
+                            "  java -jar myla.jar help\n" +
+                            "  java -jar myla.jar [debug/prod] [commands]");
+                    System.out.println("Default args: prod");
+                    System.out.println("For more details go to " + WEBSITE);
+                    return;
+                }
+
                 if (args[0].equalsIgnoreCase("debug"))
-                    DEBUG = true;
+                    debug = true;
 
-            //
-            // Moving old 'latest.log' file to the logs/ folder
-            //
-            ABSOLUTE_PATH = Paths.get("").toAbsolutePath().toString();
-            debug("ABSOLUTE_PATH: " + ABSOLUTE_PATH);
+                if (args.length >= 2) {
+                    if (args[1].equalsIgnoreCase("commands"))
+                        updateCommands = true;
+                }
+            }
 
-            File latestLogs = new File(ABSOLUTE_PATH + "/latest.log");
+            // Splash text
+            System.out.println("  __  __       _");
+            System.out.println(" |  \\/  |     | |");
+            System.out.println(" | \\  / |_   _| | __ _");
+            System.out.println(" | |\\/| | | | | |/ _` |");
+            System.out.println(" | |  | | |_| | | (_| |");
+            System.out.println(" |_|  |_|\\__, |_|\\__,_|");
+            System.out.println("          __/ |     ______");
+            System.out.println("         |___/     |______|");
+            System.out.println();
+            System.out.println(" " + WEBSITE);
+            System.out.println(" Version " + VERSION);
+            System.out.println();
+
+            if (isDevBuild())
+                System.out.println("***                                                                                ***\n" +
+                        "*** THIS VERSION IS A DEV BUILD AND SHOULD NOT BE USED IN A PRODUCTION ENVIRONMENT ***\n" +
+                        "***                                                                                ***");
+
+            Thread.sleep(2000);
+
+            // Moving old 'latest.log' file
+            String absolutePath = Paths.get("").toAbsolutePath().toString();
+            debug("Absolute path: " + absolutePath);
+
+            File latestLogs = new File(absolutePath + "/latest.log");
 
             if (latestLogs.exists()) {
                 debug("latest.log file existing");
                 System.out.println("Cleaning logs...");
 
-                File logsFolder = new File(ABSOLUTE_PATH + "/logs");
+                File logsFolder = new File(absolutePath + "/logs");
 
                 if (logsFolder.exists()) {
                     debug("logs/ folder already existing");
                     if (!logsFolder.isDirectory()) {
-                        System.out.println(ABSOLUTE_PATH + "/logs is not a directory");
+                        System.out.println(absolutePath + "/logs is not a directory");
                         return;
                     }
                 } else {
@@ -63,7 +102,7 @@ public class Myla {
                 }
 
                 String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
-                String newPath = ABSOLUTE_PATH + "/logs/before-" + date + ".log";
+                String newPath = absolutePath + "/logs/before-" + date + ".log";
 
                 debug("Moving latest.log file to " + newPath);
                 Files.move(latestLogs.toPath(), Paths.get(newPath));
@@ -72,108 +111,101 @@ public class Myla {
             }
 
             debug("Creating logger");
-            LOGGER = LoggerFactory.getLogger(Myla.class);
+            logger = LoggerFactory.getLogger(Myla.class);
+            logger.info("Myla v" + VERSION);
 
             //
             // Initializing configuration
             //
-            debug("Reading configuration");
-            ConfigurationLoader configurationLoader = new ConfigurationLoader(false);
+            debug("Initializing configuration");
+            configurationManager = new ConfigurationManager();
 
-            if (configurationLoader.getConfiguration() == null)
+            if (!configurationManager.load())
                 return;
 
-            CONFIGURATION = configurationLoader.getConfiguration();
+            if (!configurationManager.parse())
+                return;
 
-            if (configurationLoader.getConfiguration().isStats())
-                getLogger().info("Stats enabled");
+            // Initializing translations
+            debug("Reading translations");
+            translationManager = new TranslationManager();
 
-            //
+            if (!translationManager.load())
+                return;
+
+            if (!translationManager.parse())
+                return;
+
             // Initializing commands
-            //
             debug("Setting up commands");
 
-            COMMAND_HANDLER = new CommandHandler();
+            commandHandler = new CommandHandler();
             getCommandHandler().registerCommands(new Commands());
 
-            getLogger().info(COMMAND_HANDLER.getCommands().size() + " commands ready");
-
-            //
-            // Initializing translations
-            //
-            debug("Reading translations");
-
-            TranslationsLoader translationsLoader = new TranslationsLoader(false);
-
-            if (translationsLoader.getTranslations() == null)
-                return;
-
-            TRANSLATIONS = translationsLoader.getTranslations();
+            getLogger().info(commandHandler.getCommands().size() + " commands ready");
 
             // OKHTTP
             debug("Creating OkHttp client");
-            OK_HTTP_CLIENT = new OkHttpClient();
+            okHttpClient = new OkHttpClient();
 
             //COUNT
             debug("Getting count");
-            if (Gifs.count()) {
+            if (Gifs.count())
                 getLogger().info(Gifs.getTotalCount() + " gifs available");
-            } else {
-                System.exit(0);
+            else
                 return;
-            }
 
-            //
             // Building JDA
-            //
             getLogger().info("Building JDA...");
-
-            JDABuilder jdaBuilder = JDABuilder.createDefault(getConfig().getToken());
+            JDABuilder jdaBuilder = JDABuilder.createDefault(getConfig().getDiscord_token());
             jdaBuilder.setRawEventsEnabled(true);
             jdaBuilder.addEventListeners(new Events());
-
-            getLogger().info("Starting JDA");
+            getLogger().info("Starting");
             JDA = jdaBuilder.build();
         } catch (Exception exception) {
+            getLogger().error("Failed to start");
             exception.printStackTrace();
-            return;
         }
     }
 
     public static boolean isDebugging() {
-        return DEBUG;
+        return debug;
     }
 
     public static void setDebugging(boolean debug) {
-        DEBUG = debug;
-    }
-
-    public static String absolutePath() {
-        return ABSOLUTE_PATH;
+        Myla.debug = debug;
     }
 
     public static Logger getLogger() {
-        return LOGGER;
+        return logger;
     }
 
-    public static Configuration getConfig() {
-        return CONFIGURATION;
+    public static JSONConfiguration getConfig() {
+        return configurationManager.getConfiguration();
     }
 
-    public static void setConfig(Configuration CONFIGURATION) {
-        Myla.CONFIGURATION = CONFIGURATION;
+    public static ConfigurationManager getConfigurationManager() {
+        return configurationManager;
+    }
+
+    public static void setConfigurationManager(ConfigurationManager configurationManager) {
+        Myla.configurationManager = configurationManager;
+    }
+
+    public static TranslationManager getTranslationManager() {
+        return translationManager;
+    }
+
+    public static void setTranslationManager(TranslationManager translationManager) {
+        Myla.translationManager = translationManager;
+    }
+
+    public static JSONLang getLang() {
+        return translationManager.getLang();
     }
 
     public static CommandHandler getCommandHandler() {
-        return COMMAND_HANDLER;
-    }
-
-    public static HashMap<String, Object> getTranslations() {
-        return TRANSLATIONS;
-    }
-
-    public static void setTranslations(HashMap<String, Object> TRANSLATIONS) {
-        Myla.TRANSLATIONS = TRANSLATIONS;
+        return commandHandler;
     }
 
     public static JDA getJDA() {
@@ -181,21 +213,34 @@ public class Myla {
     }
 
     public static OkHttpClient getOkHttpClient() {
-        return OK_HTTP_CLIENT;
+        return okHttpClient;
     }
 
     public static void debug(String s) {
-        if (DEBUG)
+        if (debug)
             if (getLogger() == null)
                 System.out.println("(debug) " + s);
             else
                 getLogger().info("(debug) " + s);
     }
 
-    public static String t(String key, String... values) {
-        if (TRANSLATIONS.containsKey(key)) {
-            MessageFormat messageFormat = new MessageFormat(String.valueOf(TRANSLATIONS.get(key)));
-            return messageFormat.format(values);
-        } else return "{" + key + "}";
+    public static boolean isDevBuild() {
+        String version = VERSION.toLowerCase();
+
+        return version.contains("beta")
+                || version.contains("dev")
+                || version.contains("snapshot")
+                || version.contains("alpha");
+    }
+
+    public static void cannotContinue(String s) {
+        Myla.getLogger().error("Cannot continue: invalid '" + s + "'");
+    }
+
+    public static boolean isNull(String s) {
+        if (s == null)
+            return true;
+
+        return s.equalsIgnoreCase("");
     }
 }

@@ -29,10 +29,11 @@ public class Gifs {
     private static int smileCount = 0;
     private static int winkCount = 0;
     private static int prayCount = 0;
+    private static int hideCount = 0;
 
     public static boolean count() {
         try {
-            Request request = new Request.Builder().url(Myla.getConfig().getBase_imageurl() + "/image_count").build();
+            Request request = new Request.Builder().url(Myla.getConfig().getDatabase_url() + "/image_count").build();
 
             Response response = Myla.getOkHttpClient().newCall(request).execute();
             ResponseBody body = response.body();
@@ -65,6 +66,7 @@ public class Gifs {
             smileCount = jsonObject.get("smile").getAsInt();
             winkCount = jsonObject.get("wink").getAsInt();
             prayCount = jsonObject.get("pray").getAsInt();
+            hideCount = jsonObject.get("hide").getAsInt();
 
             response.close();
             return true;
@@ -77,13 +79,13 @@ public class Gifs {
     public static String get(String type, int count) {
         int random = new Random().nextInt(count);
 
-        return Myla.getConfig().getBase_imageurl() + "/images/" + type + "/" + random + ".gif";
+        return Myla.getConfig().getDatabase_url() + "/images/" + type + "/" + random + ".gif";
     }
 
     public static int getTotalCount() {
         return blushCount + cookieCount + cryCount + headpatCount + heheCount + hiCount + hugCount + idkCount + kissCount
                 + laughCount + memeCount + notlikethisCount + partyCount + poutCount + punchCount + slapCount + smileCount + winkCount
-                + prayCount;
+                + prayCount + hideCount;
     }
 
     public static int getBlushCount() {
@@ -160,5 +162,9 @@ public class Gifs {
 
     public static int getPrayCount() {
         return prayCount;
+    }
+
+    public static int getHideCount() {
+        return hideCount;
     }
 }
