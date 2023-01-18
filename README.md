@@ -25,26 +25,42 @@
   •
   <a href="https://myla.alkanife.fr/invite">Invite Myla</a>
   •
-  <a href="https://myla.alkanife.fr/images">GIF Database</a>
+  <a href="https://myla.alkanife.fr/view">GIF Database</a>
   •
-  <a href="https://discord.gg/SFFJshHbsy">Discord server</a>
+  <a href="https://myla.alkanife.fr/discord">Discord server</a>
   •
-  <a href="https://github.com/alkanife/myla/blob/main/ToS.md">ToS</a>
+  <a href="https://myla.alkanife.fr/tos">ToS</a>
 </p>
 
 ## Overview
 Myla is a Discord bot that adds quick anime GIF commands. Everyone can submit a GIF on the Discord server.
 
 ### Commands
-```
-/blush, /cookie, /cry, /headpat, /hehe, /hi, /hug, /idk, /kiss, /laugh, /meme, /notlikethis, /party,
-/pout, /punch, /slap, /smile, /wink, /pray, /hide
-```
+![/blush](https://img.shields.io/badge//blush-4A4A4A?style=flat-square)
+![/cookie](https://img.shields.io/badge//cookie-4A4A4A?style=flat-square)
+![/cry](https://img.shields.io/badge//cry-4A4A4A?style=flat-square)
+![/headpat](https://img.shields.io/badge//headpat-4A4A4A?style=flat-square)
+![/hehe](https://img.shields.io/badge//hehe-4A4A4A?style=flat-square)
+![/hi](https://img.shields.io/badge//hi-4A4A4A?style=flat-square)
+![/hug](https://img.shields.io/badge//hug-4A4A4A?style=flat-square)
+![/idk](https://img.shields.io/badge//idk-4A4A4A?style=flat-square)
+![/kiss](https://img.shields.io/badge//kiss-4A4A4A?style=flat-square)
+![/laugh](https://img.shields.io/badge//laugh-4A4A4A?style=flat-square)
+![/meme](https://img.shields.io/badge//meme-4A4A4A?style=flat-square)
+![/notlikethis](https://img.shields.io/badge//notlikethis-4A4A4A?style=flat-square)
+![/party](https://img.shields.io/badge//party-4A4A4A?style=flat-square)
+![/pout](https://img.shields.io/badge//pout-4A4A4A?style=flat-square)
+![/punch](https://img.shields.io/badge//punch-4A4A4A?style=flat-square)
+![/slap](https://img.shields.io/badge//slap-4A4A4A?style=flat-square)
+![/smile](https://img.shields.io/badge//smile-4A4A4A?style=flat-square)
+![/wink](https://img.shields.io/badge//wink-4A4A4A?style=flat-square)
+![/pray](https://img.shields.io/badge//pray-4A4A4A?style=flat-square)
+![/hide](https://img.shields.io/badge//hide-4A4A4A?style=flat-square)
 
 ### Previews
-![Preview 1](https://myla.alkanife.fr/images/preview/preview1.png)
-![Preview 2](https://myla.alkanife.fr/images/preview/preview2.png)
-![Preview 3](https://myla.alkanife.fr/images/preview/preview3.png)
+![Preview 1](https://myla.alkanife.fr/images/preview1.png)
+![Preview 2](https://myla.alkanife.fr/images/preview2.png)
+![Preview 3](https://myla.alkanife.fr/images/preview3.png)
 
 ## Project dependencies
 This project requires **Java 17+**.
