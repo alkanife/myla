@@ -1,0 +1,88 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 18px;
+    background-color: rgb(15, 15, 15);
+    color: rgb(240, 240, 240);
+    font-family: 'Ubuntu Mono', monospace;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 2%;
+}
+
+.header {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.header h1 {
+    padding-bottom: 10px;
+}
+
+.header_links {
+    padding-bottom: 30px;
+}
+
+.header_links a {
+    text-decoration: underline;
+    color: blanchedalmond;
+}
+
+.header_gifs {
+    padding-bottom: 10px;
+}
+
+.type_link {
+    background-color: rgb(240, 240, 240);
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+.active_type_link {
+    background-color: rgb(240, 224, 79);
+}
+
+img {
+    box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
+    object-fit: cover;
+    background-color: rgb(43, 43, 43);
+}
+
+.gifs_container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+    grid-auto-rows: 15.5em;  
+    padding: 10px;
+    padding-bottom: 20px;
+}
+
+.gif_container img {
+    width: 100%;
+    height: 100%; 
+}
+
+.fixed_gifs_container {
+    display: grid;
+    padding: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(15em, 1fr));
+    grid-auto-rows: 15.5em;  
+}
+
+.fixed_gif_container img {
+    width: 15em;
+    height: 15em;
+    padding-bottom: 5px;
+}
