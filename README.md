@@ -16,24 +16,15 @@
   </a>
 </h1>
 
-<p align="center">
-  <a href="#overview">Overview</a>
-  •
-  <a href="#project-dependencies">Project dependencies</a>
-  •
-  <a href="#license">License</a>
-  •
-  <a href="https://myla.alkanife.fr/invite">Invite Myla</a>
-  •
-  <a href="https://myla.alkanife.fr/view">GIF Database</a>
-  •
-  <a href="https://myla.alkanife.fr/discord">Discord server</a>
-  •
-  <a href="https://myla.alkanife.fr/tos">ToS</a>
-</p>
+<hr>
+
+## Goodbye !
+I regret to announce the discontinuation of the Discord bot called Myla after 3 years of service. Unfortunately I can no longer give the time and energy to the project as before. Soon, the bot will be disconnected, and the gif database too. The 426 gifs are also available for download here: https://share.alkanife.fr/myla-gifs.zip.
+
+<hr>
 
 ## Overview
-Myla is a Discord bot that adds quick anime GIF commands. Everyone can submit a GIF on the Discord server.
+Myla was a Discord bot that adds quick anime GIF commands.
 
 ### Commands
 ![/blush](https://img.shields.io/badge//blush-4A4A4A?style=flat-square)
@@ -56,11 +47,6 @@ Myla is a Discord bot that adds quick anime GIF commands. Everyone can submit a 
 ![/wink](https://img.shields.io/badge//wink-4A4A4A?style=flat-square)
 ![/pray](https://img.shields.io/badge//pray-4A4A4A?style=flat-square)
 ![/hide](https://img.shields.io/badge//hide-4A4A4A?style=flat-square)
-
-### Previews
-![Preview 1](https://myla.alkanife.fr/images/preview1.png)
-![Preview 2](https://myla.alkanife.fr/images/preview2.png)
-![Preview 3](https://myla.alkanife.fr/images/preview3.png)
 
 ## Project dependencies
 This project requires **Java 17+**.
