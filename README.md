@@ -1,4 +1,4 @@
-<img align="right" src="https://myla.alkanife.fr/images/myla.png" height="200" width="200">
+<img align="right" src="https://shared.alkanife.dev/myla/myla.png" height="200" width="200">
 <h1 align="center">
   Myla
   <br>
@@ -11,15 +11,12 @@
   <a href="https://github.com/alkanife/myla/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/alkanife/myla" alt="LICENSE">
   </a>
-  <a href="https://top.gg/">
-    <img src="https://top.gg/api/widget/servers/658109944859459604.svg" alt="servers">
-  </a>
 </h1>
 
 <hr>
 
 ## Goodbye !
-I regret to announce the discontinuation of the Discord bot called Myla after 3 years of service. Unfortunately I can no longer give the time and energy to the project as before. Soon, the bot will be disconnected, and the gif database too. The 426 gifs are also available for download here: https://share.alkanife.fr/myla-gifs.zip.
+I regret to announce the discontinuation of the Discord bot called Myla after 3 years of service. Unfortunately I can no longer give the time and energy to the project as before. Soon, the bot will be disconnected, and the gif database too. The 426 gifs are also available for download here: https://shared.alkanife.dev/myla-gifs.zip.
 
 <hr>
 
