@@ -16,7 +16,7 @@
 <hr>
 
 ## Goodbye !
-I regret to announce the discontinuation of the Discord bot called Myla after 3 years of service. Unfortunately I can no longer give the time and energy to the project as before. Soon, the bot will be disconnected, and the gif database too. The 426 gifs are also available for download here: https://shared.alkanife.dev/myla-gifs.zip.
+I regret to announce the discontinuation of the Discord bot called Myla after 3 years of service. Unfortunately I can no longer give the time and energy to the project as before. Soon, the bot will be disconnected, and the gif database too. The 426 gifs are also available for download here: https://shared.alkanife.dev/myla/myla-gifs.zip.
 
 <hr>
 
